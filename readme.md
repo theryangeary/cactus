@@ -10,6 +10,8 @@
 $ make
 # build and flash
 $ make flash
+# build and flash on Windows (change COM port to match)
+$ make UPLOAD_PORT=COM4 flash
 # clean
 $ make clean
 ```
