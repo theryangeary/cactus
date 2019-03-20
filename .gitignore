@@ -1,1 +1,4 @@
 tags
+.aliases
+ble_client.ino
+ble_server.ino
