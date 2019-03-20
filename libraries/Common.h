@@ -8,3 +8,5 @@
 #include "Arduino.h"
 
 #endif
+
+void test();
