@@ -12,6 +12,11 @@ int CHEAT_START_TIME = 0;
 
 void setup() {
   Serial.begin(115200);
+
+  if ( 0 != calibrate() ) {
+    Serial.println("Calibration failed");
+  }
+
   // Initialize Bluetooth connection
   initializeBLE();
 }

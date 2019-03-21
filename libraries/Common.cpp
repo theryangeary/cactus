@@ -10,3 +10,7 @@ void test() {
   return;
 }
 
+int calibrate(int &calibrationValue) {
+  // TODO
+  return 1;
+}

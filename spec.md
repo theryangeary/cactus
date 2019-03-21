@@ -23,7 +23,7 @@ state {
 - Start BLE server/client depending on compile flags
 - returns: 0 on success
 
-`int calibrate()`
+`int calibrate(int &calibrationValue)`
 - set amount of force when foot is up
 - returns: 0 on success
 

@@ -10,3 +10,4 @@
 #endif
 
 void test();
+int calibrate(int &calibrationValue);
