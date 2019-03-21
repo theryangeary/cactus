@@ -6,7 +6,7 @@
 #include "esp32-hal-log.h"
 #endif
 
-#define LED 2
+#define CHEAT_BUZZ_LENGTH 2000
 
 int incoming;
 
