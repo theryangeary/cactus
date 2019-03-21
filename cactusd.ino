@@ -8,16 +8,14 @@
 
 #define CHEAT_BUZZ_LENGTH 2000
 
-int incoming;
+int CHEAT_START_TIME = 0;
 
 void setup() {
-  // initialize digital pin LED as an output.
-  pinMode(LED, OUTPUT);
   Serial.begin(115200);
+  // Initialize Bluetooth connection
   initializeBLE();
 }
 
-// the loop function runs over and over again forever
 void loop() {
   delay(1000);
 }
