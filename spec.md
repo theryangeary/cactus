@@ -19,8 +19,8 @@ state {
 
 ## functions
 
-`int startServer()`
-- Start BLE server
+`int initializeBLE()`
+- Start BLE server/client depending on compile flags
 - returns: 0 on success
 
 `int calibrate()`
