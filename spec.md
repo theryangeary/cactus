@@ -33,6 +33,10 @@ state {
 - BLOCKING
 - returns: 0 on success
 
+`bool footDown()`
+`bool footUp()`
+- return true if the foot is in that position
+
 `int checkStateChange()`
 - if state changed, make BT request notifying other foot (notifyStateChange())
 - return 0 if not changed
