@@ -9,11 +9,12 @@
 #define CHEAT_BUZZ_LENGTH 2000
 
 int CHEAT_START_TIME = 0;
+int CALIBRATION_VALUE = 0;
 
 void setup() {
   Serial.begin(115200);
 
-  if ( 0 != calibrate() ) {
+  if ( 0 != calibrate(&CALIBRATION_VALUE) ) {
     Serial.println("Calibration failed");
   }
 
@@ -22,5 +23,8 @@ void setup() {
 }
 
 void loop() {
+#ifdef CLIENT
+
+#endif
   delay(1000);
 }
