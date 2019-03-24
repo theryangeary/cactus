@@ -19,7 +19,8 @@ void setup() {
   }
 
   // Initialize Bluetooth connection
-  initializeBLE();
+  BLEConnection conn;
+Serial.println(conn.getStatus());
 }
 
 void loop() {

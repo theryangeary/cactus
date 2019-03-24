@@ -121,7 +121,7 @@ void bleTest() {
   return;
 }
 
-int initializeBLE() {
+BLEConnection::BLEConnection() {
   Serial.println("Initializing BLE...");
 #ifdef SERVER
   Serial.println("I'm server");
@@ -139,9 +139,11 @@ int initializeBLE() {
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
   BLEDevice::startAdvertising();
+  this->status=1;
 #endif
 
 #ifdef CLIENT
+  this->status=2;
   Serial.println("I'm client");
 
   BLEDevice::init("");
@@ -164,7 +166,5 @@ int initializeBLE() {
     Serial.println("Trying to connect...");
   }
 #endif
-
-  return 0;
 }
 

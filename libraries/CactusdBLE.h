@@ -16,3 +16,16 @@ bool connectToServer();
 
 class MyAdvertisedDeviceCallbacks;
 
+class BLEConnection {
+  BLEServer* server;
+  BLEClient* client;
+  BLEDevice* device;
+  BLEService* service;
+  BLERemoteService* remoteService;
+  BLERemoteCharacteristic* remoteCharacteristic;
+  int status;
+
+  public:
+  BLEConnection();
+  int getStatus() { return status; }
+};
