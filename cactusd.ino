@@ -10,6 +10,7 @@
 
 int CHEAT_START_TIME = 0;
 int CALIBRATION_VALUE = 0;
+BLEConnection* conn = NULL;
 
 void setup() {
   Serial.begin(115200);
@@ -19,13 +20,13 @@ void setup() {
   }
 
   // Initialize Bluetooth connection
-  BLEConnection conn;
-Serial.println(conn.getStatus());
+  conn = new BLEConnection;
+  Serial.println(conn->getStatus());
 }
 
 void loop() {
 #ifdef CLIENT
-
+  Serial.println(conn->getStatus());
 #endif
   delay(1000);
 }
