@@ -34,6 +34,7 @@ static void notifyCallback(
 
 class MyClientCallback : public BLEClientCallbacks {
   void onConnect(BLEClient* pclient) {
+    connected = true;
     Serial.println("Connected");
   }
 
@@ -168,3 +169,6 @@ BLEConnection::BLEConnection() {
 #endif
 }
 
+int BLEConnection::getStatus() {
+  return connected;
+}

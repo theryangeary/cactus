@@ -27,5 +27,5 @@ class BLEConnection {
 
   public:
   BLEConnection();
-  int getStatus() { return status; }
+  int getStatus();
 };
