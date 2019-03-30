@@ -23,7 +23,6 @@ class BLEConnection {
   BLEService* service;
   BLERemoteService* remoteService;
   BLERemoteCharacteristic* remoteCharacteristic;
-  int status;
 
   public:
   BLEConnection();

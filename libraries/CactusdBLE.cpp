@@ -140,11 +140,9 @@ BLEConnection::BLEConnection() {
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
   BLEDevice::startAdvertising();
-  this->status=1;
 #endif
 
 #ifdef CLIENT
-  this->status=2;
   Serial.println("I'm client");
 
   BLEDevice::init("");
