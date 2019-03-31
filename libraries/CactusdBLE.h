@@ -20,11 +20,18 @@ class BLEConnection {
   BLEServer* server;
   BLEClient* client;
   BLEDevice* device;
-  BLEService* service;
-  BLERemoteService* remoteService;
-  BLERemoteCharacteristic* remoteCharacteristic;
 
   public:
   BLEConnection();
   int getStatus();
+#ifdef SERVER
+  BLEService* service;
+  BLECharacteristic* characteristic;
+#endif
+
+#ifdef CLIENT
+  BLERemoteService* service;
+  BLERemoteCharacteristic* characteristic;
+#endif
+
 };
