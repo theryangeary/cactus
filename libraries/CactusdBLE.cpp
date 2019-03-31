@@ -8,9 +8,9 @@
 #ifdef CLIENT
 
 // The remote service we wish to connect to.
-static BLEUUID serviceUUID("4fafc201-1fb5-459e-8fcc-c5c9c331914b");
+static BLEUUID serviceUUID(SERVICE_UUID);
 // The characteristic of the remote service we are interested in.
-static BLEUUID    charUUID("beb5483e-36e1-4688-b7f5-ea07361b26a8");
+static BLEUUID    charUUID(CHARACTERISTIC_UUID);
 
 static boolean doConnect = false;
 static boolean connected = false;
@@ -168,5 +168,9 @@ BLEConnection::BLEConnection() {
 }
 
 int BLEConnection::getStatus() {
+#ifdef CLIENT
   return connected;
+#else
+  return -1;
+#endif
 }
