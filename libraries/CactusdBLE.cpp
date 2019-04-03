@@ -127,16 +127,16 @@ BLEConnection::BLEConnection() {
 #ifdef SERVER
   Serial.println("I'm server");
   BLEDevice::init("CACTUSD");
-  BLEServer *pServer = BLEDevice::createServer();
-  BLEService *pService = pServer->createService(SERVICE_UUID);
-  BLECharacteristic *pCharacteristic = pService->createCharacteristic(
+  this->server = BLEDevice::createServer();
+  this->service = this->server->createService(SERVICE_UUID);
+  this->characteristic = this->service->createCharacteristic(
       CHARACTERISTIC_UUID,
       BLECharacteristic::PROPERTY_READ |
       BLECharacteristic::PROPERTY_WRITE
       );
 
-  pCharacteristic->setValue("Hello friggin world");
-  pService->start();
+  this->characteristic->setValue("Hello friggin world");
+  this->service->start();
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
   BLEDevice::startAdvertising();
@@ -157,11 +157,7 @@ BLEConnection::BLEConnection() {
   pBLEScan->setActiveScan(true);
   pBLEScan->start(5, false);
 
-  BLEClient* client;
-  BLERemoteService* service;
-  BLERemoteCharacteristic* characteristic;
-
-  while(!connectToServer(client, service, characteristic)) {
+  while(!connectToServer(this->client, this->service, this->characteristic)) {
     Serial.println("Trying to connect...");
   }
 #endif
