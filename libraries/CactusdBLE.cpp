@@ -8,9 +8,9 @@
 #ifdef CLIENT
 
 // The remote service we wish to connect to.
-static BLEUUID serviceUUID("4fafc201-1fb5-459e-8fcc-c5c9c331914b");
+static BLEUUID serviceUUID(SERVICE_UUID);
 // The characteristic of the remote service we are interested in.
-static BLEUUID    charUUID("beb5483e-36e1-4688-b7f5-ea07361b26a8");
+static BLEUUID    charUUID(CHARACTERISTIC_UUID);
 
 static boolean doConnect = false;
 static boolean connected = false;
@@ -34,6 +34,7 @@ static void notifyCallback(
 
 class MyClientCallback : public BLEClientCallbacks {
   void onConnect(BLEClient* pclient) {
+    connected = true;
     Serial.println("Connected");
   }
 
@@ -67,50 +68,50 @@ class MyAdvertisedDeviceCallbacks: public BLEAdvertisedDeviceCallbacks {
 }; // MyAdvertisedDeviceCallbacks
 
 bool connectToServer(
-    BLEClient* pClient,
-    BLERemoteService* pRemoteService,
-    BLERemoteCharacteristic* pRemoteCharacteristic) {
+    BLEClient** pClient,
+    BLERemoteService** pRemoteService,
+    BLERemoteCharacteristic** pRemoteCharacteristic) {
   Serial.print("Forming a connection to ");
   Serial.println(myDevice->getAddress().toString().c_str());
 
-  pClient  = BLEDevice::createClient();
+  (*pClient) = BLEDevice::createClient();
   Serial.println(" - Created client");
 
-  pClient->setClientCallbacks(new MyClientCallback());
+  (*pClient)->setClientCallbacks(new MyClientCallback());
 
   // Connect to the remove BLE Server.
-  pClient->connect(myDevice);  // if you pass BLEAdvertisedDevice instead of address, it will be recognized type of peer device address (public or private)
+  (*pClient)->connect(myDevice);  // if you pass BLEAdvertisedDevice instead of address, it will be recognized type of peer device address (public or private)
   Serial.println(" - Connected to server");
 
   // Obtain a reference to the service we are after in the remote BLE server.
-  pRemoteService = pClient->getService(serviceUUID);
+  (*pRemoteService) = (*pClient)->getService(serviceUUID);
   if (pRemoteService == nullptr) {
     Serial.print("Failed to find our service UUID: ");
     Serial.println(serviceUUID.toString().c_str());
-    pClient->disconnect();
+    (*pClient)->disconnect();
     return false;
   }
   Serial.println(" - Found our service");
 
   // Obtain a reference to the characteristic in the service of the remote BLE server.
-  pRemoteCharacteristic = pRemoteService->getCharacteristic(charUUID);
+  (*pRemoteCharacteristic) = (*pRemoteService)->getCharacteristic(charUUID);
   if (pRemoteCharacteristic == nullptr) {
     Serial.print("Failed to find our characteristic UUID: ");
     Serial.println(charUUID.toString().c_str());
-    pClient->disconnect();
+    (*pClient)->disconnect();
     return false;
   }
   Serial.println(" - Found our characteristic");
 
   // Read the value of the characteristic.
-  if(pRemoteCharacteristic->canRead()) {
-    std::string value = pRemoteCharacteristic->readValue();
+  if((*pRemoteCharacteristic)->canRead()) {
+    std::string value = (*pRemoteCharacteristic)->readValue();
     Serial.print("The characteristic value was: ");
     Serial.println(value.c_str());
   }
 
-  if(pRemoteCharacteristic->canNotify())
-    pRemoteCharacteristic->registerForNotify(notifyCallback);
+  if((*pRemoteCharacteristic)->canNotify())
+    (*pRemoteCharacteristic)->registerForNotify(notifyCallback);
 
   connected = true;
 }
@@ -121,21 +122,21 @@ void bleTest() {
   return;
 }
 
-int initializeBLE() {
+BLEConnection::BLEConnection() {
   Serial.println("Initializing BLE...");
 #ifdef SERVER
   Serial.println("I'm server");
   BLEDevice::init("CACTUSD");
-  BLEServer *pServer = BLEDevice::createServer();
-  BLEService *pService = pServer->createService(SERVICE_UUID);
-  BLECharacteristic *pCharacteristic = pService->createCharacteristic(
+  this->server = BLEDevice::createServer();
+  this->service = this->server->createService(SERVICE_UUID);
+  this->characteristic = (MyBLECharacteristic*) this->service->createCharacteristic(
       CHARACTERISTIC_UUID,
       BLECharacteristic::PROPERTY_READ |
       BLECharacteristic::PROPERTY_WRITE
       );
 
-  pCharacteristic->setValue("Hello friggin world");
-  pService->start();
+  this->characteristic->setValue("Hello friggin world");
+  this->service->start();
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
   BLEDevice::startAdvertising();
@@ -156,15 +157,33 @@ int initializeBLE() {
   pBLEScan->setActiveScan(true);
   pBLEScan->start(5, false);
 
-  BLEClient* client;
-  BLERemoteService* service;
-  BLERemoteCharacteristic* characteristic;
-
-  while(!connectToServer(client, service, characteristic)) {
+  while(!connectToServer(&this->client, &this->service, &this->characteristic)) {
     Serial.println("Trying to connect...");
   }
 #endif
-
-  return 0;
 }
 
+int BLEConnection::getStatus() {
+#ifdef CLIENT
+  return connected;
+#else
+  return -1;
+#endif
+}
+
+std::string BLEConnection::readCharacteristic(std::string charUUID){
+#ifdef SERVER
+  return ((MyBLECharacteristic*) this->service->getCharacteristic(charUUID))->readValue();
+#else
+  return this->service->getCharacteristic(charUUID)->readValue();
+#endif
+}
+
+void BLEConnection::writeCharacteristic(std::string charUUID, std::string newValue){
+#ifdef SERVER
+  MyBLECharacteristic* chr = ((MyBLECharacteristic*) this->service->getCharacteristic(charUUID));
+#else
+  BLERemoteCharacteristic* chr = this->service->getCharacteristic(charUUID);
+#endif
+  chr->writeValue(newValue);
+}
