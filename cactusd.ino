@@ -3,10 +3,6 @@
 #include <BLEDevice.h>
 #include <string>
 
-#ifdef ARDUINO_ARCH_ESP32
-#include "esp32-hal-log.h"
-#endif
-
 #define CHEAT_BUZZ_LENGTH 2000
 
 int CHEAT_START_TIME = 0;
