@@ -129,7 +129,7 @@ BLEConnection::BLEConnection() {
   BLEDevice::init("CACTUSD");
   this->server = BLEDevice::createServer();
   this->service = this->server->createService(SERVICE_UUID);
-  this->characteristic = this->service->createCharacteristic(
+  this->characteristic = (MyBLECharacteristic*) this->service->createCharacteristic(
       CHARACTERISTIC_UUID,
       BLECharacteristic::PROPERTY_READ |
       BLECharacteristic::PROPERTY_WRITE
@@ -169,4 +169,17 @@ int BLEConnection::getStatus() {
 #else
   return -1;
 #endif
+}
+
+std::string BLEConnection::readCharacteristic(std::string charUUID){
+  return ((MyBLECharacteristic*) this->service->getCharacteristic(charUUID))->readValue();
+}
+
+void BLEConnection::writeCharacteristic(std::string charUUID, std::string newValue){
+#ifdef SERVER
+  MyBLECharacteristic* chr = ((MyBLECharacteristic*) this->service->getCharacteristic(charUUID));
+#else
+  BLERemoteCharacteristic* chr = this->service->getCharacteristic(charUUID);
+#endif
+  chr->writeValue(newValue);
 }
