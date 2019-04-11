@@ -1,6 +1,7 @@
 #include "libraries/Common.h"
 #include "libraries/CactusdBLE.h"
 #include <BLEDevice.h>
+#include <string>
 
 #ifdef ARDUINO_ARCH_ESP32
 #include "esp32-hal-log.h"
@@ -27,6 +28,17 @@ void setup() {
 void loop() {
 #ifdef CLIENT
   Serial.println(conn->getStatus());
+
+  std::string value = "Time since boot: ";// + millis()/1000;
+
+  Serial.println(value.c_str());
+
+  conn->writeCharacteristic(CHARACTERISTIC_UUID, value);
+
+#else
 #endif
+
+  Serial.print("The characteristic value was: " );
+  Serial.println(conn->readCharacteristic(CHARACTERISTIC_UUID).c_str());
   delay(1000);
 }
