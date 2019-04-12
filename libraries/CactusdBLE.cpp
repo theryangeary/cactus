@@ -110,8 +110,10 @@ bool connectToServer(
     Serial.println(value.c_str());
   }
 
-  if((*pRemoteCharacteristic)->canNotify())
+  if((*pRemoteCharacteristic)->canNotify()) {
     (*pRemoteCharacteristic)->registerForNotify(notifyCallback);
+    Serial.println(" - Registered for notifications");
+  }
 
   connected = true;
 }
@@ -132,10 +134,13 @@ BLEConnection::BLEConnection() {
   this->characteristic = (MyBLECharacteristic*) this->service->createCharacteristic(
       CHARACTERISTIC_UUID,
       BLECharacteristic::PROPERTY_READ |
-      BLECharacteristic::PROPERTY_WRITE
+      BLECharacteristic::PROPERTY_WRITE |
+      BLECharacteristic::PROPERTY_NOTIFY |
+      BLECharacteristic::PROPERTY_INDICATE
       );
 
-  this->characteristic->setValue("Hello friggin world");
+  this->characteristic->setNotifyProperty(true);
+  this->characteristic->setValue("1");
   this->service->start();
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
