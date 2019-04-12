@@ -171,19 +171,3 @@ int BLEConnection::getStatus() {
 #endif
 }
 
-std::string BLEConnection::readCharacteristic(std::string charUUID){
-#ifdef SERVER
-  return ((MyBLECharacteristic*) this->service->getCharacteristic(charUUID))->readValue();
-#else
-  return this->service->getCharacteristic(charUUID)->readValue();
-#endif
-}
-
-void BLEConnection::writeCharacteristic(std::string charUUID, std::string newValue){
-#ifdef SERVER
-  MyBLECharacteristic* chr = ((MyBLECharacteristic*) this->service->getCharacteristic(charUUID));
-#else
-  BLERemoteCharacteristic* chr = this->service->getCharacteristic(charUUID);
-#endif
-  chr->writeValue(newValue);
-}

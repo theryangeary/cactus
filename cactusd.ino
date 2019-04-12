@@ -29,12 +29,12 @@ void loop() {
 
   Serial.println(value.c_str());
 
-  conn->writeCharacteristic(CHARACTERISTIC_UUID, value);
+  conn->characteristic->writeValue(value);
 
 #else
 #endif
 
   Serial.print("The characteristic value was: " );
-  Serial.println(conn->readCharacteristic(CHARACTERISTIC_UUID).c_str());
+  Serial.println(conn->characteristic->readValue().c_str());
   delay(1000);
 }
