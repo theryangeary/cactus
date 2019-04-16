@@ -42,11 +42,11 @@ state {
 - return 0 if not changed
 - return 1 if changed
 
-`int notifyStateChange()`
+`int notifyStateChange()` //Not in current version
 - send BT request with new state to other server
 - return 0 if response OK
 
-`int cheating()`
+`bool cheating(int sem)`
 - check if both states are up
 - call notifyCheating()
 - call startBuzz()
@@ -56,13 +56,14 @@ state {
 `int startBuzz()`
 - set CHEAT_START_TIME
 - turn on buzzer
+- If already buzzing, continue
 - return 0
 
 `int stopBuzz()`
 - turn off buzzer
 - return 0
 
-`int notifyCheating()`
+`int notifyCheating()` //Not in current version
 - send BT request to start buzzing
 - return 0 on acknowledgment
 
