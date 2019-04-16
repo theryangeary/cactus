@@ -20,7 +20,7 @@ bool footUp();
 bool getCurrentState();
 bool getPreviousState();
 void updateState();
-bool checkStateChange(bool previous);
+bool checkStateChange();
 bool cheating(int sem);
 bool startBuzz();
 bool stopBuzz();

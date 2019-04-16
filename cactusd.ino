@@ -26,6 +26,13 @@ void loop() {
 
   if (checkStateChange()) {
     // check if this foot is up and if so decrement semaphore
+    if (footUp()) {
+      conn->semDec();
+    }
+    // if foot is down then increment semaphore
+    if (footDown()) {
+      conn->semInc();
+    }
   }
 
   updateState();

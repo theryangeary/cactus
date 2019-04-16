@@ -44,6 +44,8 @@ class BLEConnection {
   int getStatus();
   std::string readCharacteristic(std::string charUUID);
   void writeCharacteristic(std::string charUUID, std::string newValue);
+  void semInc();
+  void semDec();
 
 #ifdef SERVER
   BLEService* service;
