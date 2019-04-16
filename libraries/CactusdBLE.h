@@ -16,3 +16,36 @@ bool connectToServer();
 
 class MyAdvertisedDeviceCallbacks;
 
+class MyBLECharacteristic : public BLECharacteristic {
+  public:
+    std::string readValue() {
+      return this->getValue();
+    }
+
+    void writeValue(std::string value) {
+      this->setValue(value);
+    }
+};
+
+class BLEConnection {
+  BLEServer* server;
+  BLEClient* client;
+  BLEDevice* device;
+
+  public:
+  BLEConnection();
+  int getStatus();
+  std::string readCharacteristic(std::string charUUID);
+  void writeCharacteristic(std::string charUUID, std::string newValue);
+
+#ifdef SERVER
+  BLEService* service;
+  MyBLECharacteristic* characteristic;
+#endif
+
+#ifdef CLIENT
+  BLERemoteService* service;
+  BLERemoteCharacteristic* characteristic;
+#endif
+
+};

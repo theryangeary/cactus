@@ -27,6 +27,9 @@ state {
 - set amount of force when foot is up
 - returns: 0 on success
 
+`bool BLEConnection::getStatus()`
+- check if client connected to server
+
 `int checkBtConnection()`
 - make sure that this client can reach the server
 - if not connected then do some special buzz thing to warn the user
