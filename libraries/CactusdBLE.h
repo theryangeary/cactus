@@ -5,6 +5,7 @@
 #include <BLEDevice.h>
 #include <BLEUtils.h>
 #include <BLEServer.h>
+#include "Common.h"
 #include "Arduino.h"
 
 #define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
@@ -25,6 +26,12 @@ class MyBLECharacteristic : public BLECharacteristic {
     void writeValue(std::string value) {
       this->setValue(value);
     }
+};
+
+class CallbackHandler: public BLECharacteristicCallbacks {
+  void onWrite(BLECharacteristic* pCharacteristic) {
+    cheating(atoi(pCharacteristic->getValue().c_str()));
+  }
 };
 
 class BLEConnection {

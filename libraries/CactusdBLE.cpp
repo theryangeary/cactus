@@ -23,6 +23,7 @@ static void notifyCallback(
     uint8_t* pData,
     size_t length,
     bool isNotify) {
+  cheating(*(int*)pData);
   Serial.print("Notify callback for characteristic ");
   Serial.print(pBLERemoteCharacteristic->getUUID().toString().c_str());
   Serial.print(" of data length ");
