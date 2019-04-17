@@ -23,7 +23,6 @@ void setup() {
 }
 
 void loop() {
-
   if (checkStateChange()) {
     // check if this foot is up and if so decrement semaphore
     if (footUp()) {
@@ -43,27 +42,7 @@ void loop() {
     stopBuzz();
   }
 
-
-#ifdef CLIENT
-  Serial.println(conn->getStatus());
-
-  std::string value = "1";// + millis()/1000;
-
-  Serial.println(value.c_str());
-
-  conn->characteristic->writeValue(value);
-
-#else
-#endif
-
   Serial.print("The characteristic value was: " );
   Serial.println(conn->characteristic->readValue().c_str());
   delay(1000);
-  i++;
-#ifdef SERVER
-  if (i == 12) {
-    conn->characteristic->writeValue("0");
-    conn->characteristic->notify();
-  }
-#endif
 }
