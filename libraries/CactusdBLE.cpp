@@ -188,6 +188,7 @@ void BLEConnection::semAdjust(int adj) {
   std::string newValue;
   newValue.push_back(oldValue[0]);
   this->characteristic->writeValue(newValue);
+  cheating(oldValue[0]-'0');
 #ifdef SERVER
   this->characteristic->notify();
 #endif
