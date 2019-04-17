@@ -136,7 +136,8 @@ BLEConnection::BLEConnection() {
       );
 
   this->characteristic->setNotifyProperty(true);
-  this->characteristic->setValue("1");
+  this->characteristic->setValue("2");
+  this->characteristic->setCallbacks(new CallbackHandler);
   this->service->start();
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);

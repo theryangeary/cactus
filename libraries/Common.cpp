@@ -28,7 +28,7 @@ int getCheatEndTime() {
 }
 
 bool cheating(int sem) {
-  if (sem < 0) {
+  if (sem < 1) {
     setCheatEndTime();
     Serial.println("Cheating detected");
   }
