@@ -35,7 +35,12 @@ bool cheating(int sem) {
 }
 
 bool footDown() {
-  return true;
+  if (digitalRead(2) == HIGH) {
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 bool footUp() {
