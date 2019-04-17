@@ -174,17 +174,21 @@ int BLEConnection::getStatus() {
 }
 
 void BLEConnection::semInc() {
-  char oldValue[1];
-  strcpy(oldValue, this->characteristic->readValue().c_str());
-  oldValue[0]++;
-  std::string newValue = oldValue;
-  this->characteristic->writeValue(newValue);
+  this->semAdjust(1);
 }
 
 void BLEConnection::semDec() {
+  this->semAdjust(-1);
+}
+
+void BLEConnection::semAdjust(int adj) {
   char oldValue[1];
   strcpy(oldValue, this->characteristic->readValue().c_str());
-  oldValue[0]--;
-  std::string newValue = oldValue;
+  oldValue[0] = oldValue[0] + adj;
+  std::string newValue;
+  newValue.push_back(oldValue[0]);
   this->characteristic->writeValue(newValue);
+#ifdef SERVER
+  this->characteristic->notify();
+#endif
 }
