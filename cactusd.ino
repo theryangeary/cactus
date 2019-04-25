@@ -12,15 +12,20 @@ int i = 0;
 
 void setup() {
   Serial.begin(115200);
-
+  ledcSetup(channel, freq, resolution);
+  ledcAttachPin(BUZZER, channel);
+  pinMode(BUZZER,OUTPUT);
+  ledcWrite(channel, 255);
   if ( 0 != calibrate(&CALIBRATION_VALUE) ) {
-    Serial.println("Calibration failed");
+	  Serial.println("Calibration failed");
   }
 
-  // Initialize Bluetooth connection
-  conn = new BLEConnection;
+  //Initialize Bluetooth connection
+	  conn = new BLEConnection;
   Serial.println(conn->getStatus());
 }
+
+
 
 void loop() {
   if (checkStateChange()) {
