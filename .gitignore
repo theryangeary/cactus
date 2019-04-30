@@ -3,3 +3,4 @@ tags
 ble_client.ino
 ble_server.ino
 Session.vim
+*.swp
