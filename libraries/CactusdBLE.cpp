@@ -192,7 +192,7 @@ void BLEConnection::semDec() {
 void BLEConnection::semAdjust(int adj) {
   char oldValue[1];
   strcpy(oldValue, this->characteristic->readValue().c_str());
-  oldValue[0] = oldValue[0] + adj;
+  oldValue[0] = std::min(std::max(oldValue[0] + adj, 48), 50);
   std::string newValue;
   newValue.push_back(oldValue[0]);
   this->characteristic->writeValue(newValue);
