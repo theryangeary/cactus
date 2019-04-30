@@ -166,6 +166,10 @@ BLEConnection::BLEConnection() {
   while(!connectToServer(&this->client, &this->service, &this->characteristic)) {
     Serial.println("Trying to connect...");
   }
+
+  if (footDown()) {
+    this->semInc();
+  }
 #endif
 }
 
