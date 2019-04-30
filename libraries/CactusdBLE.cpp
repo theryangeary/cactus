@@ -136,7 +136,11 @@ BLEConnection::BLEConnection() {
       );
 
   this->characteristic->setNotifyProperty(true);
-  this->characteristic->setValue("2");
+  if (footUp()) {
+    this->characteristic->setValue("0");
+  } else {
+    this->characteristic->setValue("1");
+  }
   this->characteristic->setCallbacks(new CallbackHandler);
   this->service->start();
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
