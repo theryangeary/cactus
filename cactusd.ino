@@ -11,43 +11,43 @@ BLEConnection* conn = NULL;
 int i = 0;
 
 void setup() {
-	Serial.begin(115200);
-	ledcSetup(CHANNEL, FREQ, RESOLUTION);
-	ledcAttachPin(BUZZER, CHANNEL);
-	pinMode(BUZZER,OUTPUT);
-	ledcWrite(CHANNEL, 200);
-	if ( 0 != calibrate(&CALIBRATION_VALUE) ) {
-		Serial.println("Calibration failed");
-	}
+  Serial.begin(115200);
+  ledcSetup(CHANNEL, FREQ, RESOLUTION);
+  ledcAttachPin(BUZZER, CHANNEL);
+  pinMode(BUZZER,OUTPUT);
+  ledcWrite(CHANNEL, 200);
+  if ( 0 != calibrate(&CALIBRATION_VALUE) ) {
+    Serial.println("Calibration failed");
+  }
 
-	//Initialize Bluetooth connection
-	conn = new BLEConnection;
-	Serial.println(conn->getStatus());
-	updateState();
+  //Initialize Bluetooth connection
+  conn = new BLEConnection;
+  Serial.println(conn->getStatus());
+  updateState();
 }
 
 
 void loop() {
-	if (checkStateChange()) {
-		// check if this foot is up and if so decrement semaphore
-		if (footUp()) {
-			conn->semDec();
-			Serial.println("UP");
-		}
-		// if foot is down then increment semaphore
-		if (footDown()) {
-			conn->semInc();
-			Serial.println("DOWN");
-		}
-		updateState();
-	}
+  if (checkStateChange()) {
+    // check if this foot is up and if so decrement semaphore
+    if (footUp()) {
+      conn->semDec();
+      Serial.println("UP");
+    }
+    // if foot is down then increment semaphore
+    if (footDown()) {
+      conn->semInc();
+      Serial.println("DOWN");
+    }
+    updateState();
+  }
 
-	if (millis() < getCheatEndTime()) {
-		startBuzz();
-	} else {
-		stopBuzz();
-	}
+  if (millis() < getCheatEndTime()) {
+    startBuzz();
+  } else {
+    stopBuzz();
+  }
 
-	Serial.print("The characteristic value was: " );
-	Serial.println(conn->characteristic->readValue().c_str());
+  Serial.print("The characteristic value was: " );
+  Serial.println(conn->characteristic->readValue().c_str());
 }
