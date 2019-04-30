@@ -35,7 +35,8 @@ bool cheating(int sem) {
 }
 
 bool footDown() {
-  if (getVoltage() <= VOLT_THRESH) {
+
+  if (getVoltage() >= VOLT_THRESH) {
     return true;
   }
   else {
@@ -63,15 +64,12 @@ void updateState() {
   STATE = getCurrentState();
 }
 
-bool startBuzz() {
-
-	ledcWriteTone(channel, freq);
-
+bool startBuzz() {	
+  ledcWrite(CHANNEL, 200);
 }
 
 bool stopBuzz() {
-
-	ledcWriteTone(channel, 0);
+  ledcWrite(CHANNEL, 0);
 }
 
 bool checkBuzzEnd() {
@@ -80,14 +78,14 @@ bool checkBuzzEnd() {
 
 float getVoltage() {
 
-	float pinVal = (float) analogRead(FOOT_PIN);
-	float oldMax = 4095.0;
-	float oldMin = 0.0;
-	float newMax = 3.3;
-	float newMin = 0.0;
-	float oldRange = oldMax - oldMin;
-	float newRange = newMax - newMin;
+  float pinVal = (float) analogRead(FOOT_PIN);
+  float oldMax = 4095.0;
+  float oldMin = 0.0;
+  float newMax = 3.3;
+  float newMin = 0.0;
+  float oldRange = oldMax - oldMin;
+  float newRange = newMax - newMin;
 
-	return (((pinVal - oldMin) * newRange) / oldRange) + newMin;
+  return (((pinVal - oldMin) * newRange) / oldRange) + newMin;
 
 }

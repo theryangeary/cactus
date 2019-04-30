@@ -13,9 +13,9 @@
 #define BUZZER 32
 #define VOLT_THRESH 2.4
 
-#define freq 1000
-#define channel 0
-#define resolution 8
+#define FREQ 1000
+#define CHANNEL 0
+#define RESOLUTION 8
 
 void test();
 int calibrate(int *calibrationValue);
