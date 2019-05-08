@@ -6,17 +6,14 @@
 #define CHEAT_BUZZ_LENGTH 2000
 
 int CHEAT_START_TIME = 0;
-int CALIBRATION_VALUE = 0;
 BLEConnection* conn = NULL;
 int i = 0;
 
 void setup() {
   Serial.begin(115200);
-  ledcSetup(CHANNEL, FREQ, RESOLUTION);
-  ledcAttachPin(BUZZER, CHANNEL);
-  pinMode(BUZZER,OUTPUT);
-  ledcWrite(CHANNEL, 200);
-  if ( 0 != calibrate(&CALIBRATION_VALUE) ) {
+  pinMode(BUZZER, OUTPUT);
+  pinMode(FOOT_PIN, OUTPUT);
+  if ( 0 != calibrate() ) {
     Serial.println("Calibration failed");
   }
 
@@ -49,5 +46,10 @@ void loop() {
   }
 
   Serial.print("The characteristic value was: " );
-  Serial.println(conn->characteristic->readValue().c_str());
+  Serial.print(conn->characteristic->readValue().c_str());
+  Serial.print(", Calibration value is: ");
+  Serial.print(getCalibrationValue());
+  Serial.print(", Current Value is: ");
+  Serial.println(analogRead(FOOT_PIN));
+  /*Serial.println(analogRead(35));*/
 }

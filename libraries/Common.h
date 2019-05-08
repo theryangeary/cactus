@@ -18,7 +18,7 @@
 #define RESOLUTION 8
 
 void test();
-int calibrate(int *calibrationValue);
+int calibrate();
 void setCheatEndTime();
 int getCheatEndTime();
 bool footDown();
@@ -31,6 +31,6 @@ bool cheating(int sem);
 bool startBuzz();
 bool stopBuzz();
 bool checkBuzzEnd();
-float getVoltage();
+int getCalibrationValue();
 
 #endif

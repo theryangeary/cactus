@@ -8,15 +8,16 @@
 // false is up, true is down
 bool STATE = true;
 int CHEAT_END_TIME;
+int CALIBRATION_VALUE;
 
 void test() {
   Serial.println("this the the test; it works!");
   return;
 }
 
-int calibrate(int *calibrationValue) {
-  // TODO
-  return 1;
+int calibrate() {
+  CALIBRATION_VALUE = analogRead(FOOT_PIN);
+  return 0;
 }
 
 void setCheatEndTime() {
@@ -35,13 +36,10 @@ bool cheating(int sem) {
 }
 
 bool footDown() {
-
-  if (getVoltage() >= VOLT_THRESH) {
-    return true;
-  }
-  else {
+  if (analogRead(FOOT_PIN) < CALIBRATION_VALUE + (0.1*CALIBRATION_VALUE)) {
     return false;
   }
+  return true;
 }
 
 bool footUp() {
@@ -64,28 +62,20 @@ void updateState() {
   STATE = getCurrentState();
 }
 
-bool startBuzz() {	
-  ledcWrite(CHANNEL, 200);
+bool startBuzz() {
+  //ledcWrite(CHANNEL, 200);
+  digitalWrite(BUZZER, HIGH);
 }
 
 bool stopBuzz() {
-  ledcWrite(CHANNEL, 0);
+  //ledcWrite(CHANNEL, 0);
+  digitalWrite(BUZZER, LOW);
 }
 
 bool checkBuzzEnd() {
 
 }
 
-float getVoltage() {
-
-  float pinVal = (float) analogRead(FOOT_PIN);
-  float oldMax = 4095.0;
-  float oldMin = 0.0;
-  float newMax = 3.3;
-  float newMin = 0.0;
-  float oldRange = oldMax - oldMin;
-  float newRange = newMax - newMin;
-
-  return (((pinVal - oldMin) * newRange) / oldRange) + newMin;
-
+int getCalibrationValue() {
+  return CALIBRATION_VALUE;
 }
