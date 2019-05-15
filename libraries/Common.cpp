@@ -16,7 +16,7 @@ void test() {
 }
 
 int calibrate() {
-  CALIBRATION_VALUE = analogRead(FOOT_PIN);
+  CALIBRATION_VALUE = 1000;
   return 0;
 }
 
