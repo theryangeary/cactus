@@ -30,7 +30,7 @@ class MyBLECharacteristic : public BLECharacteristic {
 
 class CallbackHandler: public BLECharacteristicCallbacks {
   void onWrite(BLECharacteristic* pCharacteristic) {
-    cheating(atoi(pCharacteristic->getValue().c_str()));
+    cheating((int)pCharacteristic->getValue().c_str());
   }
 };
 
