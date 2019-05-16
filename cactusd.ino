@@ -13,6 +13,7 @@ void setup() {
   Serial.begin(115200);
   pinMode(BUZZER, OUTPUT);
   pinMode(FOOT_PIN, OUTPUT);
+
   if ( 0 != calibrate() ) {
     Serial.println("Calibration failed");
   }
@@ -46,7 +47,7 @@ void loop() {
   }
 
   Serial.print("The characteristic value was: " );
-  Serial.print(conn->characteristic->readValue().c_str());
+  Serial.print(conn->characteristic->readValue().c_str()[0]+'0');
   Serial.print(", Calibration value is: ");
   Serial.print(getCalibrationValue());
   Serial.print(", Current Value is: ");
