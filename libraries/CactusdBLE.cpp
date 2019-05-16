@@ -23,7 +23,7 @@ static void notifyCallback(
     uint8_t* pData,
     size_t length,
     bool isNotify) {
-  int sem = *pData - 48;
+  int sem = *pData;
   cheating(sem);
 }
 
@@ -186,17 +186,22 @@ void BLEConnection::semInc() {
 }
 
 void BLEConnection::semDec() {
-  this->semAdjust(-1);
+  this->semAdjust(0);
 }
 
-void BLEConnection::semAdjust(int adj) {
+void BLEConnection::semAdjust(int value) {
   char oldValue[1];
   strcpy(oldValue, this->characteristic->readValue().c_str());
-  oldValue[0] = std::min(std::max(oldValue[0] + adj, 48), 50);
+#ifdef CLIENT
+  oldValue[0] = ((char)(((char)((char)oldValue[0]) << 7)) >> 7) | (value << 1) ;
+  Serial.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+#else
+  oldValue[0] = (oldValue[0] << 6 >> 7 << 1) | (value);
+#endif
   std::string newValue;
   newValue.push_back(oldValue[0]);
   this->characteristic->writeValue(newValue);
-  cheating(oldValue[0]-'0');
+  cheating(oldValue[0]);
 #ifdef SERVER
   this->characteristic->notify();
 #endif
