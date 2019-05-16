@@ -171,6 +171,30 @@ BLEConnection::BLEConnection() {
     this->semInc();
   }
 #endif
+startBuzz();
+delay(100);
+stopBuzz();
+delay(100);
+startBuzz();
+delay(100);
+stopBuzz();
+delay(100);
+startBuzz();
+delay(100);
+stopBuzz();
+delay(100);
+startBuzz();
+delay(100);
+stopBuzz();
+delay(100);
+startBuzz();
+delay(100);
+stopBuzz();
+delay(100);
+startBuzz();
+delay(100);
+stopBuzz();
+delay(100);
 }
 
 int BLEConnection::getStatus() {
