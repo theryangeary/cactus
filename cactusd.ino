@@ -51,5 +51,4 @@ void loop() {
   Serial.print(getCalibrationValue());
   Serial.print(", Current Value is: ");
   Serial.println(analogRead(FOOT_PIN));
-  /*Serial.println(analogRead(35));*/
 }
