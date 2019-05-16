@@ -16,7 +16,7 @@ void test() {
 }
 
 int calibrate() {
-  CALIBRATION_VALUE = 1000;
+  CALIBRATION_VALUE = 620;
   return 0;
 }
 
